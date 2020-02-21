@@ -1,0 +1,46 @@
+#------------------ Sales Data Merging
+
+
+sales <- read.csv(file = "~/Downloads/sales_2019-03-01_2020-02-19.csv", header = T, sep = ",")
+sales2 <- read.csv(file = "~/Downloads/sales_2019-03-01_2020-02-19 (1).csv", header = T, sep = ",")
+mergedsales = merge(sales, sales2, by = "customer_email")
+#write.csv(mergedsales, 'mergedSales.csv')
+
+#checking that taxes are identicle by email 
+
+
+mergedsales[21011,15] # this is taxes.x which matches for random entry
+
+mergedsales[21011,22] #this also matches but there are entries not the same
+
+test = mergedsales[,c(-15, -17, -18)]
+
+#write.csv(test, 'MergedSalesEdited.csv')
+names(test)[1] = 'Email'
+listEx <- read.csv(file = "~/Downloads/List Export 2020-02-19.csv", header = T, sep = ",")
+
+merged = merge(listEx, test, by = 'Email')
+
+#write.csv(merged, 'FinalMerge.csv')
+
+
+
+
+#--------------------- order data merging
+
+
+orders1 <- read.csv(file = "~/Downloads/sales_2019-04-01_2020-02-20.csv", header = T, sep = ",")
+orders2 <- read.csv(file = "~/Downloads/sales_2019-04-01_2020-02-20 (1).csv", header = T, sep = ",")
+
+mergedOrders = merge(orders1, orders2, by = 'Order')
+
+#write.csv(mergedOrders, 'OrderMerge.csv')
+
+# adding factors to count for ultra soft product orders
+
+mergedOrders$Ultra = 0
+
+unique(mergedOrders$customer_email)
+unique(mergedOrders$Product)
+
+
